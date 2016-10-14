@@ -7,6 +7,7 @@ board = [" "] * 10
 winvalues = ([7, 8, 9], [4, 5, 6], [1, 2, 3], [7, 4, 1,], [8, 5, 2], [9, 6, 3], [7, 5, 3], [9, 5, 1])
 playermove = 0
 
+#Draws the table
 def table():
     print("\n")
     print(board[7], "|", board[8], "|", board[9])
@@ -15,6 +16,7 @@ def table():
     print("---------")
     print(board[1], "|", board[2], "|", board[3])
 
+#Checks if there is a full board
 def boardfull():
     if " " in board[1:10]:
         print(" ")
@@ -22,6 +24,7 @@ def boardfull():
         print("\nIt's a tie!")
         return "tie"
 
+#Checks if there is a winner
 def wincheck():
     for value in winvalues:
         if (board[(value[0])] == board[(value[1])] == board[(value[2])] == "x"):
@@ -31,103 +34,63 @@ def wincheck():
             print("\nPlayer 0 won!\n")
             return "winner"
 
+#What robot is looking for
+def robotpanic(x,y,z):
+    if (board[x] == "o" and board[y] == "o" and board[z] == " " 
+        or board[x] == "x" and board[y] == "x"  and board[z] == " "):
+            board[z] = "o"
+            return "block"
+
+#Robot actions
 def robotmove():
     while True:
-        if (board[7] == "x" and board[8] == "x" and board[9] == " " 
-        or board[7] == "o" and board[8] == "o"  and board[9] == " "):
-            board[9] = "o"
+        if robotpanic(7,8,9) == "block":
             break
-        if (board[4] == "x" and board[5] == "x" and board[6] == " " 
-        or board[4] == "o" and board[5] == "o" and board[6] == " "):
-            board[6] = "o"
+        if robotpanic(4,5,6) == "block":
             break
-        if (board[1] == "x" and board[2] == "x" and board[3] == " " 
-        or board[1] == "o" and board[2] == "o" and board[3] == " "):
-            board[3] = "o"
+        if robotpanic(1,2,3) == "block":
             break
-        if (board[7] == "x" and board[4] == "x" and board[1] == " " 
-        or board[7] == "o" and board[4] == "o" and board[1] == " "):
-            board[1] = "o"
+        if robotpanic(7,4,1) == "block":
             break
-        if (board[8] == "x" and board[5] == "x" and board[2] == " " 
-        or board[8] == "o" and board[5] == "o" and board[2] == " "):
-            board[2] = "o"
+        if robotpanic(8,5,2) == "block":
             break
-        if (board[9] == "x" and board[6] == "x" and board[3] == " " 
-        or board[9] == "o" and board[6] == "o" and board[3] == " "):
-            board[3] = "o"
+        if robotpanic(9,6,3) == "block":
             break
-        if (board[7] == "x" and board[5] == "x" and board[3] == " " 
-        or board[7] == "o" and board[5] == "o" and board[3] == " "):
-            board[3] = "o"
+        if robotpanic(7,5,3) == "block":
             break
-        if (board[9] == "x" and board[5] == "x" and board[1] == " " 
-        or board[9] == "o" and board[5] == "o" and board[1] == " "):
-            board[1] = "o"
-            break  
-        if (board[7] == "x" and board[9] == "x" and board[8] == " " 
-        or board[7] == "o" and board[9] == "o" and board[8] == " "):
-            board[8] = "o"
+        if robotpanic(9,5,1) == "block":
             break
-        if (board[4] == "x" and board[6] == "x" and board[5] == " " 
-        or board[4] == "o" and board[6] == "o" and board[5] == " "):
-            board[5] = "o"
+        if robotpanic(7,9,8) == "block":
             break
-        if (board[1] == "x" and board[3] == "x" and board[2] == " " 
-        or board[1] == "o" and board[3] == "o" and board[2] == " "):
-            board[2] = "o"
+        if robotpanic(4,6,5) == "block":
             break
-        if (board[7] == "x" and board[1] == "x" and board[4] == " " 
-        or board[7] == "o" and board[1] == "o" and board[4] == " "):
-            board[4] = "o"
+        if robotpanic(1,3,2) == "block":
             break
-        if (board[8] == "x" and board[2] == "x" and board[5] == " " 
-        or board[8] == "o" and board[2] == "o" and board[5] == " "):
-            board[5] = "o"
+        if robotpanic(7,1,4) == "block":
+            break    
+        if robotpanic(8,2,5) == "block":
             break
-        if (board[9] == "x" and board[3] == "x" and board[6] == " " 
-        or board[9] == "o" and board[3] == "o" and board[6] == " "):
-            board[6] = "o"
+        if robotpanic(9,3,6) == "block":
             break
-        if (board[7] == "x" and board[3] == "x" and board[5] == " " 
-        or board[7] == "o" and board[3] == "o" and board[5] == " "):
-            board[5] = "o"
+        if robotpanic(7,3,5) == "block":
             break
-        if (board[9] == "x" and board[1] == "x" and board[5] == " " 
-        or board[9] == "o" and board[1] == "o" and board[5] == " "):
-            board[5] = "o"
-            break  
-        if (board[8] == "x" and board[9] == "x" and board[7] == " " 
-        or board[8] == "o" and board[9] == "o" and board[7] == " "):
-            board[7] = "o"
+        if robotpanic(9,1,5) == "block":
             break
-        if (board[5] == "x" and board[6] == "x" and board[4] == " " 
-        or board[5] == "o" and board[6] == "o" and board[4] == " "):
-            board[4] = "o"
+        if robotpanic(8,9,7) == "block":
             break
-        if (board[2] == "x" and board[3] == "x" and board[1] == " " 
-        or board[2] == "o" and board[3] == "o" and board[1] == " "):
-            board[1] = "o"
+        if robotpanic(5,6,4) == "block":
             break
-        if (board[4] == "x" and board[1] == "x" and board[7] == " " 
-        or board[4] == "o" and board[1] == "o" and board[7] == " "):
-            board[7] = "o"
+        if robotpanic(2,3,1) == "block":
             break
-        if (board[5] == "x" and board[2] == "x" and board[8] == " " 
-        or board[5] == "o" and board[2] == "o" and board[8] == " "):
-            board[8] = "o"
+        if robotpanic(4,1,7) == "block":
             break
-        if (board[6] == "x" and board[3] == "x" and board[9] == " " 
-        or board[6] == "o" and board[3] == "o" and board[9] == " "):
-            board[9] = "o"
+        if robotpanic(5,2,8) == "block":
             break
-        if (board[5] == "x" and board[3] == "x" and board[7] == " " 
-        or board[5] == "o" and board[3] == "o" and board[7] == " "):
-            board[7] = "o"
+        if robotpanic(6,3,9) == "block":
             break
-        if (board[5] == "x" and board[1] == "x" and board[9] == " " 
-        or board[5] == "o" and board[1] == "o" and board[9] == " "):
-            board[9] = "o"
+        if robotpanic(5,3,7) == "block":
+            break
+        if robotpanic(5,1,9) == "block":
             break         
         else:
             rn = random.randint(1, 9)
@@ -138,6 +101,7 @@ def robotmove():
 
 
 while True:
+#The game
     print("Welcome to Lena and Matyi's TicTacToe Game!")
     print("\nChoose places with number keys:\n")
     print("7 | 8 | 9 \n4 | 5 | 6 \n1 | 2 | 3")
@@ -167,6 +131,7 @@ os.system('cls' if os.name == 'nt' else 'clear')
 table()
 
 while True:       
+#First player
     while playermove == 0:
         n = input("\nPlayer X Choose a place: ")
         if not n.isdigit() or int(n) > 9:
@@ -192,7 +157,7 @@ while True:
         if restart == "n":
             quit()
     boardfull()
-
+#Second player
     if robot == "2":    
         while playermove == 1:
             m = input("\nPlayer O Choose a place: ")
@@ -206,7 +171,7 @@ while True:
                     playermove -= 1
                 else:
                     print("\nPlace already taken! Choose another one! ")
-    
+#Robot    
     while playermove == 1:  
         if robot == "1":
             robotmove()                                                          
