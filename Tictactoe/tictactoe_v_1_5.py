@@ -19,11 +19,11 @@ winvalues = (
 
 def table():
     print("\n"*5)
-    print("                  ", board[7], "|", board[8], "|", board[9])
-    print("                  ", "-"*9)
-    print("                  ", board[4], "|", board[5], "|", board[6])
-    print("                  ", "-"*9)
-    print("                  ", board[1], "|", board[2], "|", board[3])
+    print("                                           ", board[7], "|", board[8], "|", board[9])
+    print("                                           ", "-"*9)
+    print("                                           ", board[4], "|", board[5], "|", board[6])
+    print("                                           ", "-"*9)
+    print("                                           ", board[1], "|", board[2], "|", board[3])
     print("\n"*3)
 
 #Lets player pick a symbolol
@@ -42,7 +42,7 @@ def boardfull():
     if " " in board[1:10]:
         print(" ")
     else:
-        print("                  \nIt's a tie!")
+        print("\n                                    It's a tie!")
         return "tie"
 
 # Checks if there is a winner
@@ -51,11 +51,11 @@ def wincheck():
     for value in winvalues:
         if (board[(value[0])] == board[(value[1])]
                 == board[(value[2])] == symbol[0]):
-            print("                  " +"Player " + symbol[0] + " won!")
+            print("                                    " +"Player " + symbol[0] + " won!")
             return "winner"
         if (board[(value[0])] == board[(value[1])]
                 == board[(value[2])] == symbol[1]):
-            print("                  " +"Player " + symbol[1] + " won!")
+            print("                                    " +"Player " + symbol[1] + " won!")
             return "winner"
 
 def clean():
@@ -143,9 +143,9 @@ while True:
     # First player
 
     while playermove == 0:
-        n = input("\nPlayer " + symbol[0] + " Choose a place: ")
+        n = input("\n                                    Player " + symbol[0] + " Choose a place: ")
         if not n.isdigit() or int(n) > 9:
-            print("Please type a valid number! (1-9)")
+            print("                                    Please type a valid number! (1-9)")
             continue
         else:
             n = int(n)
@@ -154,12 +154,12 @@ while True:
                 playermove += 1
             else:
                 print(table)
-                print("\nPlace already taken! Choose another one!")
+                print("\n                                    Place already taken! Choose another one!")
 
     clean()
     table()
     while wincheck() == "winner" or boardfull() == "tie":
-        restart = input("\nPlay again? (Yes / No) ")
+        restart = input("\n                                    Play again? (Yes / No) ")
         if restart == "Yes" or restart == "yes":
             clean()
             board = [" "] * 10
@@ -172,9 +172,9 @@ while True:
 
     if robot == "2":
         while playermove == 1:
-            m = input("\nPlayer " + symbol[1] + " Choose a place: ")
+            m = input("\n                                    Player " + symbol[1] + " Choose a place: ")
             if not m.isdigit() or int(m) > 9:
-                print("Please type a valid number! (1-9) ")
+                print("                                    Please type a valid number! (1-9) ")
                 continue
             else:
                 m = int(m)
@@ -182,7 +182,7 @@ while True:
                     board[m] = symbol[1]
                     playermove -= 1
                 else:
-                    print("\nPlace already taken! Choose another one! ")
+                    print("\n                                    Place already taken! Choose another one! ")
 
 # Robot
 
@@ -194,7 +194,7 @@ while True:
     clean()
     table()
     while wincheck() == "winner" or boardfull() == "tie":
-        restart = input("\nPlay again? (Yes / No) ")
+        restart = input("\n                                    Play again? (Yes / No) ")
         if restart == "Yes" or restart == "yes":
             clean()
             board = [" "] * 10
