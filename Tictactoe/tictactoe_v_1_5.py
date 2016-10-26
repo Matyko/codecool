@@ -18,12 +18,13 @@ winvalues = (
 # Draws the table
 
 def table():
-    print("\n")
-    print(board[7], "|", board[8], "|", board[9])
-    print("-"*9)
-    print(board[4], "|", board[5], "|", board[6])
-    print("-"*9)
-    print(board[1], "|", board[2], "|", board[3])
+    print("\n"*5)
+    print("                  ", board[7], "|", board[8], "|", board[9])
+    print("                  ", "-"*9)
+    print("                  ", board[4], "|", board[5], "|", board[6])
+    print("                  ", "-"*9)
+    print("                  ", board[1], "|", board[2], "|", board[3])
+    print("\n"*3)
 
 #Lets player pick a symbolol
 
@@ -41,7 +42,7 @@ def boardfull():
     if " " in board[1:10]:
         print(" ")
     else:
-        print("\nIt's a tie!")
+        print("                  \nIt's a tie!")
         return "tie"
 
 # Checks if there is a winner
@@ -50,11 +51,11 @@ def wincheck():
     for value in winvalues:
         if (board[(value[0])] == board[(value[1])]
                 == board[(value[2])] == symbol[0]):
-            print("\033[92m\nPlayer X won!\n\033[00m")
+            print("                  " +"Player " + symbol[0] + " won!")
             return "winner"
         if (board[(value[0])] == board[(value[1])]
                 == board[(value[2])] == symbol[1]):
-            print("\033[92m\nPlayer O won!\n\033[00m")
+            print("                  " +"Player " + symbol[1] + " won!")
             return "winner"
 
 def clean():
@@ -62,12 +63,6 @@ def clean():
     return
 
 # What robot is looking for
-
-def robotnotforwin(x, y):
-    if board[x] == symbol[1] and board[y] == " ":
-        board[y] = symbol[1]
-        print("többször")
-        return "rmove"
 
 def robotpanic(x, y, z):
     if (board[x] == symbol[0] and board[y] == symbol[0] and board[z] == " "):
@@ -78,11 +73,11 @@ def robotpanic(x, y, z):
 # Robot actions
 
 def randompick():
-    rn = random.randint(1, 9)
-    if board[rn] != symbol[1] and board[rn] != symbol[0]:
-        board[rn] = symbol[1]
-        print("random")
-
+    while True:
+        rn = random.randint(1, 9)
+        if board[rn] != symbol[1] and board[rn] != symbol[0]:
+            board[rn] = symbol[1]
+            return       
     
 def robotmove():
     for value in winvalues:
@@ -92,7 +87,6 @@ def robotmove():
         elif robotpanic(value[0], value[1], value[2]) == "block":
             if board[value[2]] !=symbol[0]:
                 board[value[2]] = symbol[1]
-                print("!!!", value[0], value[1], value[2])
                 return
             else:
                 randompick()
@@ -104,7 +98,22 @@ def start():
     global playermove
     global robot
     global playersymbol
-    print("Welcome to Lena and Matyi's TicTacToe Game!\n\nChoose places with number keys:\n\n7 | 8 | 9 \n4 | 5 | 6 \n1 | 2 | 3")
+    clean()
+    print("""
+   __                                         _                  _           _  _     
+  / /   ___  _ __    __ _    __ _  _ __    __| |   /\/\    __ _ | |_  _   _ (_)( )___ 
+ / /   / _ \| '_ \  / _` |  / _` || '_ \  / _` |  /    \  / _` || __|| | | || ||// __|
+/ /___|  __/| | | || (_| | | (_| || | | || (_| | / /\/\ \| (_| || |_ | |_| || |  \__ 
+\____/ \___||_| |_| \__,_|  \__,_||_| |_| \__,_| \/    \/ \__,_| \__| \__, ||_|  |___/
+                                                                      |___/           
+ _____  _         _____               _____                                           
+/__   \(_)  ___  /__   \ __ _   ___  /__   \ ___    ___                               
+  / /\/| | / __|   / /\// _` | / __|   / /\// _ \  / _ \                              
+ / /   | || (__   / /  | (_| || (__   / /  | (_) ||  __/                              
+ \/    |_| \___|  \/    \__,_| \___|  \/    \___/  \___|                              
+                                                                                      
+""")
+    print("Welcome to Lena and Matyi's TicTacToe Game!\n\nChoose places with number keys:\n\n     7 | 8 | 9 \n     4 | 5 | 6 \n     1 | 2 | 3")
     while robot == 0:    
         start = input("\nWould you like to start the game? (Yes / No) ")
         while start == "Yes" or start == "yes":
@@ -149,7 +158,7 @@ while True:
 
     clean()
     table()
-    if wincheck() == "winner" or boardfull() == "tie":
+    while wincheck() == "winner" or boardfull() == "tie":
         restart = input("\nPlay again? (Yes / No) ")
         if restart == "Yes" or restart == "yes":
             clean()
@@ -184,7 +193,7 @@ while True:
 
     clean()
     table()
-    if wincheck() == "winner" or boardfull() == "tie":
+    while wincheck() == "winner" or boardfull() == "tie":
         restart = input("\nPlay again? (Yes / No) ")
         if restart == "Yes" or restart == "yes":
             clean()
