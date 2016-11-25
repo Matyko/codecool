@@ -25,7 +25,7 @@ class Application(Frame):
             self.submitButton = Button(self, text = options[k])
             buttons_dict[self.submitButton] = options[k]
             self.submitButton.bind("<Button-1>", self.button_clicked_options)
-            self.submitButton.grid(row = 0, column = k, pady = 5, padx = 5)
+            self.submitButton.grid(row = 0, column = k, pady = 5, padx = 5, sticky=W+E+N+S)
         
         
         self.instruction = Label(self, text="\n=== " + str(date.today()) + " ===" + "\n=== How was your day? ===\n")
@@ -46,7 +46,7 @@ class Application(Frame):
         
         for k, v in enumerate(list_name):
             self.submitButton = Button(self, text = list_name[k])
-            self.submitButton.grid(row = 2, column = k, padx=5)
+            self.submitButton.grid(row = 2, column = k, padx=5, sticky=W+E+N+S)
             buttons_dict[self.submitButton] = list_name[k]
             self.submitButton.bind("<Button-1>", self.button_clicked)
 
@@ -64,7 +64,7 @@ class Application(Frame):
             self.submitButton = Button(self, text = list_name[k])
             buttons_dict[self.submitButton] = list_name[k]
             self.submitButton.bind("<Button-1>", self.button_clicked_things)
-            self.submitButton.grid(row = newline, column = (k - column_back), pady = 5)
+            self.submitButton.grid(row = newline, column = (k - column_back), pady = 5, padx= 5, sticky=W+E+N+S)
             counter += 1
         
         newline += 1
@@ -146,18 +146,18 @@ class Application(Frame):
         self.instruction = Label(l, text="Enter the date to check:")
         self.instruction.grid(row=0, pady=10)
         self.date_entry_year = Entry(l, width = 4)
-        self.date_entry_year.grid(row = 0, column = 1, padx=10 )
+        self.date_entry_year.grid(row = 0, column = 1, padx=5 )
         self.date_entry_month = Entry(l, width = 2)
-        self.date_entry_month.grid(row = 0, column = 2, padx=10 )
+        self.date_entry_month.grid(row = 0, column = 2, padx=5 )
         self.date_entry_day = Entry(l, width = 2)
-        self.date_entry_day.grid(row = 0, column = 3, padx=10 )
+        self.date_entry_day.grid(row = 0, column = 3, padx=5 )
         self.submitButton = Button(l, text = "Get diary entry of that date", command=self.one_log_check)
         self.submitButton.grid(pady = 10)
         for feeling in feelings:
             self.number_days = Label(l, text="Number of " + feeling + " days: " + str(self.day_counter(feeling)))
             self.number_days.grid(padx = 20, pady = 20, sticky = W)
         self.logButton = Button(l, text = "Mood log", command=self.all_logs)
-        self.logButton.grid(pady = 10)
+        self.logButton.grid(pady = 10, sticky=W+E+N+S)
     
     def one_log_check(self):
         dates = []
