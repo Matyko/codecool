@@ -19,7 +19,7 @@ class Application(Frame):
     def create_widgets(self):
         feelings = get_list_from_file("feelings.txt")
         things_to_do = get_list_from_file("things to do.txt")
-        options = ["Save", "Statistics", "Activities", "Quit"]
+        options = ["Save entry", "Statistics", "Manage", "Quit"]
 
         for k, v in enumerate(options):
             self.submitButton = Button(self, text = options[k])
@@ -104,19 +104,22 @@ class Application(Frame):
     
     def button_clicked_options(self, event):
         global list_to_save
-        if buttons_dict[event.widget] == "Save":
-            table = get_table_from_file("diary.txt")
-            for row in table:
-                if row[0] == str(date.today()):
-                    table.remove(row)
-            if list_to_save[0] != " ":
-                list_to_save.append(self.notes.get())
-                table.append(list_to_save)
-            write_table_to_file("diary.txt", table)
-            self.refresh()
+        if buttons_dict[event.widget] == "Save entry":
+            if list_to_save[1] == " ":
+                self.prompt("Please enter a diary entry!")
+            else:
+                table = get_table_from_file("diary.txt")
+                for row in table:
+                    if row[0] == str(date.today()):
+                        table.remove(row)
+                if list_to_save[1] != " ":
+                    list_to_save.append(self.notes.get())
+                    table.append(list_to_save)
+                write_table_to_file("diary.txt", table)
+                self.refresh()
         if buttons_dict[event.widget] == "Statistics":
             self.logs()
-        if buttons_dict[event.widget] == "Activities":
+        if buttons_dict[event.widget] == "Manage":
             self.create_submit_window("Add or Remove activity")
         if buttons_dict[event.widget] == "Quit":
             quit()
@@ -172,6 +175,8 @@ class Application(Frame):
                 minusall = minusdate[:-1]
                 activities = ", ".join(minusall)
                 self.one_log(row[1], activities, date, row[-1])
+                return   
+        self.prompt("No entry found for date!")
     
     def check_lenght(self, table):
         table = get_table_from_file("diary.txt")
@@ -184,21 +189,21 @@ class Application(Frame):
         table = get_table_from_file("diary.txt")
         a = tk.Toplevel(self)
         a.wm_title("Diary entries up until now")
-        self.diary_entry = Label(a, text= "|Date")
+        self.diary_entry = Label(a, text= "Date")
         self.diary_entry.grid(padx=10, pady=10, row=0, column=0, sticky=W)
-        self.diary_entry = Label(a, text= "|Mood")
+        self.diary_entry = Label(a, text= "Mood")
         self.diary_entry.grid(padx=10, pady=10, row=0, column=1, sticky=W)
-        self.diary_entry = Label(a, text= "|Activities")
+        self.diary_entry = Label(a, text= "Activities")
         self.diary_entry.grid(padx=10, pady=10, row=0, column=2, sticky=W)
-        self.diary_entry = Label(a, text= "|Notes")
+        self.diary_entry = Label(a, text= "Notes")
         self.diary_entry.grid(padx=10, pady=10, row=0, column=self.check_lenght(table)-1, sticky=W)
         for k, row in enumerate(table):
             for m, item in enumerate(row[:-1]):
-                self.diary_entry = Label(a, text= "|" + item)
+                self.diary_entry = Label(a, text= item)
                 self.diary_entry.grid(padx=10, row=k+1, column=m, sticky=W)
         for k, row in enumerate(table):
             for m, item in enumerate(row[-1:]): 
-                self.diary_entry = Label(a, text= "|" + item)
+                self.diary_entry = Label(a, text= item)
                 self.diary_entry.grid(padx=10, row=k+1, column=self.check_lenght(table)-1, sticky=W)
 
     def one_log(self, mood, activities, date, note):
@@ -212,13 +217,28 @@ class Application(Frame):
         new_activity = self.submitted.get()
         if new_activity in list_of_activities:
             list_of_activities.remove(new_activity)
+            self.prompt_with_refresh("Activity removed")           
         else:
             list_of_activities.append(new_activity)
+            self.prompt_with_refresh("Activity added")
         with open("things to do.txt", "w") as file:
             for item in list_of_activities:
                 file.write("%s\n" % item)
-        self.refresh()
-
+                
+    
+    def prompt(self, message):
+        p = tk.Toplevel(self)
+        p.wm_title("Warning")
+        self.diary_entry = Label(p, text=message)
+        self.diary_entry.grid(padx=20, pady=20)
+        
+    def prompt_with_refresh(self, message):
+        w = tk.Toplevel(self)
+        w.wm_title("Warning")
+        self.diary_entry = Label(w, text=message)
+        self.diary_entry.grid(padx=20, pady=20)
+        self.submitButton = Button(w, text = "OK", command=self.refresh)
+        self.submitButton.grid(pady = 10)
 
 def get_list_from_file(file_name):
     with open(file_name, "r") as file:
