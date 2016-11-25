@@ -156,6 +156,8 @@ class Application(Frame):
         for feeling in feelings:
             self.number_days = Label(l, text="Number of " + feeling + " days: " + str(self.day_counter(feeling)))
             self.number_days.grid(padx = 20, pady = 20, sticky = W)
+        self.logButton = Button(l, text = "Mood log", command=self.all_logs)
+        self.logButton.grid(pady = 10)
     
     def one_log_check(self):
         dates = []
@@ -171,10 +173,37 @@ class Application(Frame):
                 activities = ", ".join(minusall)
                 self.one_log(row[1], activities, date, row[-1])
     
+    def check_lenght(self, table):
+        table = get_table_from_file("diary.txt")
+        lenghts = []
+        for row in table:
+            lenghts.append(len(row))
+        return max(lenghts)
+    
+    def all_logs(self):
+        table = get_table_from_file("diary.txt")
+        a = tk.Toplevel(self)
+        a.wm_title("Diary entries up until now")
+        self.diary_entry = Label(a, text= "|Date")
+        self.diary_entry.grid(padx=10, pady=10, row=0, column=0, sticky=W)
+        self.diary_entry = Label(a, text= "|Mood")
+        self.diary_entry.grid(padx=10, pady=10, row=0, column=1, sticky=W)
+        self.diary_entry = Label(a, text= "|Activities")
+        self.diary_entry.grid(padx=10, pady=10, row=0, column=2, sticky=W)
+        self.diary_entry = Label(a, text= "|Notes")
+        self.diary_entry.grid(padx=10, pady=10, row=0, column=self.check_lenght(table)-1, sticky=W)
+        for k, row in enumerate(table):
+            for m, item in enumerate(row[:-1]):
+                self.diary_entry = Label(a, text= "|" + item)
+                self.diary_entry.grid(padx=10, row=k+1, column=m, sticky=W)
+        for k, row in enumerate(table):
+            for m, item in enumerate(row[-1:]): 
+                self.diary_entry = Label(a, text= "|" + item)
+                self.diary_entry.grid(padx=10, row=k+1, column=self.check_lenght(table)-1, sticky=W)
+
     def one_log(self, mood, activities, date, note):
         o = tk.Toplevel(self)
         o.wm_title("Diary entry of: " + date)
-        print(date, activities, note)
         self.diary_entry = Label(o, text= date + "\n\nToday was " + mood + "\n\nWhat I did today:\n\n" + activities + "\n\n" + note)
         self.diary_entry.grid(padx=10, pady=10) 
 
